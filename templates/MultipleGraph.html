@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/" method="post">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    {% for exercise_name, data in exercises.items() %}
+        <h3>{{ exercise_name }}</h3>
+        <canvas id="{{ exercise_name }}Chart" max-width="500" max-height="500"></canvas>
+        <script>
+            var ctx = document.getElementById('{{ exercise_name }}Chart');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ data.labels | tojson }},
+                    datasets: [{
+                        label: '{{ exercise_name }}',
+                        data: {{ data.weights | tojson }},
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    scales: {
+                    x: {
+                        type: 'time',
+                        time: {
+                            unit: 'day'
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endfor %}
+    </form>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <!DOCTYPE html>
+    <html lang="en">
+
+        <head>
+            <meta charset="UTF-8">
+            <title>Test</title>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </head>
+
+        <body>
+            <canvas id="combinedChart"></canvas>
+            <script>
+                var ctx = document.getElementById('combinedChart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: {{ labels | tojson }},
+                        datasets: [{% for exercise_name, data in exercises.items() %}
+                            {
+                            label: '{{ exercise_name }}',
+                            data: {{ data.weights | tojson }},
+                            borderColor: 'hsl({{ loop.index0 * (360 / exercises|length) }}, 100%, 50%)',
+                            backgroundColor: 'hsla({{ loop.index0 * (360 / exercises|length) }}, 100%, 50%, 0.5)',
+                            fill: false
+                            } {% if not loop.last %},
+                            {% endif %}
+                            {% endfor %}]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                ticks: {
+                                // Include kg to every tick on chart
+                                    callback: function(value, index, ticks) {
+                                        return value.toFixed(2) + ' kg';
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                });
+            </script>
+        </body>
+    </html>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Menu
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <form action="/" method="post">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Workouts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for workout in workouts %}
+                        <tr>
+                            <td>{{ workout.program_name }}</td>
+                            <td class="d-flex justify-content-around">
+                                <button class="btn btn-primary" type="submit" value="{{ workout.program_id }}" name="workout">Perform Workout</button>
+                                <button class="btn btn-primary" type="submit" value="{{ workout.program_id }}" name="editWorkout">Edit Workout</button>
+                                <button class="btn btn-primary" type="submit" value="{{ workout.program_id }}" name="workoutGraph">View Progression</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+{% endblock %}

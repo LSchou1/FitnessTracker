@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Workout
+{% endblock %}
+
+{% block main %}
+    <div class="container mt-5">
+        <form action="/workout" method="post">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Exercise name</th>
+                            <th>Sets</th>
+                            <th>Reps</th>
+                            <th>Weight</th>
+                            {% for i in range(1, maxSet + 1) %}
+                            <th>Set {{ i }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exercise in exercises %}
+                        <tr>
+                            <td>{{ exercise.exercise_name }}</td>
+                            <td>{{ exercise.sets }}</td>
+                            <td>{{ exercise.reps }}</td>
+                            <td>{{ exercise.start_weight }}</td>
+                            {% for i in range(1, exercise.sets + 1) %}
+                            <td style="width: 15%;">
+                                <input  autocomplete="off" autofocus class="form-control" name="exercise_{{exercise.exercise_id}}_set_{{i}}" placeholder="Reps for set {{ i }}" type="number" min="0" required>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button class="btn btn-primary" type="submit" name="submitWorkout">Submit workout</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

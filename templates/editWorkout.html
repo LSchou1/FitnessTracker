@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/editWorkout" method="post">
+        <div class="table-responsive">
+        <button class="btn btn-primary" type="submit" name="addExercise">Add exercise</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Exercise name</th>
+                    <th>Sets</th>
+                    <th>Reps</th>
+                    <th>Weight</th>
+                    <th>Progression weight</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exercise in exercises %}
+                <tr>
+                    <td>{{ exercise.exercise_name }}</td>
+                    <td>{{ exercise.sets }}</td>
+                    <td>{{ exercise.reps }}</td>
+                    <td>{{ exercise.start_weight }}</td>
+                    <td>{{ exercise.progression_weight }}</td>
+                    <td>
+                        <button class="btn btn-primary" type="button" onclick="toggleDetails('details_{{exercise.exercise_id}}')">Edit exercise</button>
+                    </td>
+                </tr>
+                <tr id="details_{{exercise.exercise_id}}" style="display: none;">
+                    <td colspan="6">
+                        <div>
+                            <!-- Add your edit form fields here -->
+                            <label for="name_{{exercise.exercise_name}}">Name:</label>
+                            <input type="text" id="name_{{exercise.exercise_name}}" name="name_{{exercise.exercise_id}}" value="{{ exercise.exercise_name }}">
+
+                            <label for="sets_{{exercise.exercise_id}}">Sets:</label>
+                            <input type="number" min="1" id="sets_{{exercise.exercise_id}}" name="sets_{{exercise.exercise_id}}" value="{{ exercise.sets }}" style="width: 50px;">
+
+                            <label for="reps_{{exercise.exercise_id}}">Reps:</label>
+                            <input type="number" min="1" id="reps_{{exercise.exercise_id}}" name="reps_{{exercise.exercise_id}}" value="{{ exercise.reps }}" style="width: 50px;">
+
+                            <label for="weight_{{exercise.exercise_id}}">Weight:</label>
+                            <input type="number" min="0" step="0.01" id="weight_{{exercise.exercise_id}}" name="weight_{{exercise.exercise_id}}" value="{{ exercise.start_weight }}" style="width: 75px;">
+
+                            <label for="progression_weight_{{exercise.exercise_id}}">Progression weight:</label>
+                            <input type="number" min="0" step="0.01" id="progression_weight_{{exercise.exercise_id}}" name="progression_weight_{{exercise.exercise_id}}" value="{{ exercise.progression_weight }}" style="width: 75px;">
+
+                            <button type="submit" name="saveWorkout" value="{{exercise.exercise_id}}" class="btn btn-primary">Save exercise</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </form>
+
+    <script>
+        function toggleDetails(id) {
+            var detailsRow = document.getElementById(id);
+            if (detailsRow.style.display === "none") {
+                detailsRow.style.display = "table-row";
+            } else {
+                detailsRow.style.display = "none";
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete workout
+{% endblock %}
+
+{% block main %}
+    <form action="/deleteWorkout" method="post">
+        <div class="mb-3">
+            <select autocomplete="off" autofocus class="form-control mx-auto w-auto" name="programId">
+                <option disabled selected>Select workout to delete</option>
+                {% for program in programs %}
+                <option value="{{ program.program_id }}">{{ program.program_name }}</option>
+                {% endfor%}
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Delete workout</button>
+        </div>
+    </form>
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add workout
+{% endblock %}
+
+{% block main %}
+    <form action="/addWorkout" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="workoutName" placeholder="Workout name" type="text" required>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Add workout</button>
+        </div>
+    </form>
+{% endblock %}
