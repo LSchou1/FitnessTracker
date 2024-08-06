@@ -1,5 +1,4 @@
 # Workout tracker
-#### Video Demostration:  <https://youtu.be/41vyg4BkK9o>
 #### Description:
 Workout Tracker is a website to keep track of your workouts and progression over time. The unique feature of this tracker is that it automatically updates the weight to an exercise if the required number of reps is achieved.
 
