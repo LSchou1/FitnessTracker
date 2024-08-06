@@ -7,7 +7,7 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required
-
+print("test")
 
 # Configure application
 app = Flask(__name__)
@@ -17,9 +17,20 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
+""""
+# to work in any folder:
+# Find the directory where the app.py is located
+basedir = os.path.abspath(os.path.dirname(__file__))
 
+# Create the full path for the database
+db_path = os.path.join(basedir, 'database.db')
+
+# Configure CS50 Library to use SQLite database with the full path
+db = SQL(f"sqlite:///{db_path}")
+"""
 
 @app.after_request
 def after_request(response):

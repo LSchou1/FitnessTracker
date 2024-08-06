@@ -37,3 +37,12 @@ table td {
 tbody tr:nth-of-type(odd) {
     background-color: rgb(179, 208, 255, 0.3)
 }
+
+
+
+/* Målrettet stil for mobiltelefoner */
+@media (max-width: 768px) {
+    input[type="number"] {
+        width: 50px; /* Øg bredden på mobilskærme */
+    }
+}
