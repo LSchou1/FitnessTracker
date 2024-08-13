@@ -154,6 +154,7 @@ def workout():
                 exerciseGroups[exerciseId].append(reps)
 
             currentTime = datetime.datetime.now().strftime('%Y-%m-%d')
+            currentTime = datetime.datetime.now()
 
             # Process each exercise group
             for exerciseId, repsList in exerciseGroups.items():
@@ -168,13 +169,28 @@ def workout():
                 currentWeight = exerciseInfo["start_weight"]
                 progressionWeight = exerciseInfo["progression_weight"]
 
+                # make an combined string with all reps ex: 1/2/5/5/
+                allRepsInString = ""
+                print(f"repsList: {repsList}")
+                for rep in repsList:
+                    if allRepsInString:
+                        allRepsInString += "/"
+                    allRepsInString += str(rep)
+                print(f"allRepsInString: {allRepsInString}")
                 # if true
                 if allSetsMeetReps:
                     newWeight = currentWeight + progressionWeight
-                    db.execute("INSERT INTO exercise_weights (exercise_id, weight, time) VALUES(?, ?, ?)", exerciseId, currentWeight, currentTime)
-                    db.execute("UPDATE exercises SET start_weight = ? WHERE exercise_id = ?", newWeight, exerciseId)
+                    # insert into exercise_weights with new weight, time and reps for each set
+                    db.execute("INSERT INTO exercise_weights (exercise_id, weight, time, reps) VALUES(?, ?, ?, ?)", exerciseId, currentWeight, currentTime, allRepsInString)
+                    
+                    # update exercises with new weight and reset reps for each sets
+                    db.execute("UPDATE exercises SET start_weight = ?, previous_reps = '' WHERE exercise_id = ?", newWeight, exerciseId)
                 else:
-                    db.execute("INSERT INTO exercise_weights (exercise_id, weight, time) VALUES(?, ?, ?)", exerciseId, currentWeight, currentTime)
+                    # insert into exercise_weights with current weight, time and reps for each set
+                    db.execute("INSERT INTO exercise_weights (exercise_id, weight, time, reps) VALUES(?, ?, ?, ?)", exerciseId, currentWeight, currentTime, allRepsInString)
+
+                    # update exercise with previous reps for each set
+                    db.execute("UPDATE exercises SET previous_reps = ? WHERE exercise_id = ?", allRepsInString, exerciseId)
 
             return redirect("/")
 
@@ -184,15 +200,25 @@ def workout():
 
         # load all exercises from DB
         exercises = db.execute("SELECT * FROM exercises WHERE program_id = ?", workoutId)
+        
         # check if dict is empty
         if exercises is None:
             return redirect("/")
 
-        # find max sets
+        # find max sets to make enough columns
+        # find reps from previous workout
         maxSet = 0
         for ex in exercises:
+            # find max sets
             if ex["sets"] > maxSet:
                 maxSet = ex["sets"]
+
+            if ex["previous_reps"]:
+                ex["previous_reps"] = ex["previous_reps"].split("/")
+                print(ex["previous_reps"])
+            else:
+                ex["previous_reps"] = []
+
 
         return render_template("workout.html", exercises=exercises, maxSet=maxSet)
 
