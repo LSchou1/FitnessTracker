@@ -4,6 +4,8 @@ Workout Tracker is a website to keep track of your workouts and progression over
 
 Users can register or log in to the webste, then add, delete and edit exercises and workouts. The user can view their workout history and weight progression to each workout with a graph
 
+## Updates
+### 13/8/2024 - Previous workout reps is now a placeholder for each set
 ## Features
 ### Registration and Login
 - **Registration and Login:** Users can register and log to the webste. All passwords are hashed and stored in an SQL database (database.db) Hashing a password is a one-way function to secure that passwords can be stored safely. One-way function means that the input is being hashed to a cyphertext, so the input password to an username is being hashed and then compared to the stored hashed password.
@@ -32,7 +34,7 @@ To each workout there is three options:
 - **Other small libraries or packages**
 
 ## Future improvements
-- **Make the website available online:** Instead of running the website trough flask locally it will be appropriate to publish the website so anybody can use it.
+- **AI-assistent** Assistent to make programs.
 - **Email to user registration:**
 - **Forgot password:** Following the addition of emails, it could be necessary to integrate a "forgot password" system.
 
