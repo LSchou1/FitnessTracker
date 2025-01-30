@@ -1,0 +1,328 @@
+{"messages": [{"role": "system", "content": "You are an assistant that generates structured workout programs."},{"role": "user", "content": "Lav et træningsprogram til ben, hvor front squat indgår."},{"role": "assistant", "content": {"Ben": [
+                {
+                    "exercise": "Front Squat",
+                    "sets": 4,
+                    "reps": 8
+                },
+                {
+                    "exercise": "Romanian deadlift",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Bulgarian Split Squat",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Leg Curl",
+                    "sets": 3,
+                    "reps": 15
+                },
+                {
+                    "exercise": "Calf Raise",
+                    "sets": 4,
+                    "reps": 20
+                }
+            ]
+        }}
+    ]
+}
+{
+    "messages": [
+        {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+        {"role": "user", "content": "Lav et bro split træningsprogram til bryst"},
+        {"role": "assistant", "content": {
+            "Bro split bryst": [
+                {
+                    "exercise": "Bench Press",
+                    "sets": 4,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Dips",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Incline bench",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Overhead tricep extensions",
+                    "sets": 3,
+                    "reps": 15
+                }
+            ]
+        }}
+    ]
+}
+{
+    "messages": [
+        {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+        {"role": "user", "content": "Lav et træningsprogram til overkroppen."},
+        {"role": "assistant", "content": {
+            "Upperbody": [
+                {
+                    "exercise": "Bench Press",
+                    "sets": 4,
+                    "reps": 8
+                },
+                {
+                    "exercise": "Pull-Up",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Overhead Press",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Bent-Over Row",
+                    "sets": 4,
+                    "reps": 8
+                },
+                {
+                    "exercise": "Dumbbell Lateral Raise",
+                    "sets": 3,
+                    "reps": 15
+                },
+                {
+                    "exercise": "Tricep Dips",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Bicep Curl",
+                    "sets": 3,
+                    "reps": 12
+                }
+            ]
+        }}
+    ]
+}
+{
+    "messages": [
+        {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+        {"role": "user", "content": "Lav et hypertrofi-program til ryggen."},
+        {"role": "assistant", "content": {
+            "Hypertrofi ryg": [
+                {
+                    "exercise": "Pull-Up",
+                    "sets": 4,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Bent-Over Barbell Row",
+                    "sets": 4,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Single-Arm Dumbbell Row",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Seated Cable Row",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Lat Pulldown",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Face Pull",
+                    "sets": 3,
+                    "reps": 20
+                }
+            ]
+        }}
+    ]
+}
+{
+    "messages": [
+        {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+        {"role": "user", "content": "Create a hypertrophy program for the chest."},
+        {"role": "assistant", "content": {
+            "Hypertrophy Chest": [
+                {
+                    "exercise": "Flat Bench Press",
+                    "sets": 4,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Incline Dumbbell Press",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Cable Fly",
+                    "sets": 3,
+                    "reps": 15
+                },
+                {
+                    "exercise": "Chest Dips",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Push-Ups",
+                    "sets": 4,
+                    "reps": 15
+                }
+            ]
+        }}
+    ]
+}
+{
+    "messages": [
+        {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+        {"role": "user", "content": "Create a Mike Mentzer-inspired Heavy Duty program."},
+        {"role": "assistant", "content": {
+            "Day 1 - Chest and Back": [
+                {
+                    "exercise": "Incline Bench Press",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Chest Fly (Machine or Dumbbell)",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Pull-Over (Machine or Dumbbell)",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Underhand Pulldown",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Seated Row",
+                    "sets": 1,
+                    "reps": 10
+                }
+            ],
+            "Day 2 - Legs": [
+                {
+                    "exercise": "Leg Extension",
+                    "sets": 1,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Leg Press",
+                    "sets": 1,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Leg Curl",
+                    "sets": 1,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Calf Raise",
+                    "sets": 1,
+                    "reps": 20
+                }
+            ],
+            "Day 3 - Shoulders and Arms": [
+                {
+                    "exercise": "Shoulder Press (Machine or Dumbbell)",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Lateral Raise",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Barbell Curl",
+                    "sets": 1,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Tricep Pushdown",
+                    "sets": 1,
+                    "reps": 10
+                }
+            ]
+        }}
+    ]
+}
+{
+    "messages": [
+        {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+        {"role": "user", "content": "Create a 2-day split workout program."},
+        {"role": "assistant", "content": {
+            "Day 1 - Upper Body": [
+                {
+                    "exercise": "Bench Press",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Pull-Up",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Overhead Press",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Bent-Over Row",
+                    "sets": 3,
+                    "reps": 10
+                },
+                {
+                    "exercise": "Dumbbell Lateral Raise",
+                    "sets": 3,
+                    "reps": 15
+                }
+            ],
+            "Day 2 - Lower Body": [
+                {
+                    "exercise": "Squat",
+                    "sets": 4,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Romanian Deadlift",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Leg Press",
+                    "sets": 3,
+                    "reps": 12
+                },
+                {
+                    "exercise": "Leg Curl",
+                    "sets": 3,
+                    "reps": 15
+                },
+                {
+                    "exercise": "Calf Raise",
+                    "sets": 4,
+                    "reps": 20
+                }
+            ]
+        }}
+    ]
+}
+{"messages": [{"role": "system", "content": "You are an assistant that generates structured workout programs."}, {"role": "user", "content": "What is the weather today?"}, {"role": "assistant", "content": "I only generate workout programs."}]}
+{"messages": [{"role": "system", "content": "You are an assistant that generates structured workout programs."}, {"role": "user", "content": "Tell me a joke."}, {"role": "assistant", "content": "I only generate workout programs."}]}
+{"messages": [{"role": "system", "content": "You are an assistant that generates structured workout programs."}, {"role": "user", "content": "How do I make a cake?"}, {"role": "assistant", "content": "I only generate workout programs."}]}
+{"messages": [{"role": "system", "content": "You are an assistant that generates structured workout programs."}, {"role": "user", "content": "Hvordan lægger man to vektorer sammen?"}, {"role": "assistant", "content": "I only generate workout programs."}]}
+{"messages": [{"role": "system", "content": "You are an assistant that generates structured workout programs."}, {"role": "user", "content": "Hvordan konverterer man int til string i c++"}, {"role": "assistant", "content": "I only generate workout programs."}]}
+
+
