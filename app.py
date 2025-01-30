@@ -1,5 +1,8 @@
 import os
 import datetime
+from openai import OpenAI
+
+import json
 
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
@@ -7,7 +10,13 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required
-print("test")
+print("opstart")
+
+
+# OPEN AI
+API_KEY = open("AI/API_KEY", "r").read()
+client = OpenAI(api_key=API_KEY)
+
 
 # Configure application
 app = Flask(__name__)
@@ -31,6 +40,9 @@ db_path = os.path.join(basedir, 'database.db')
 # Configure CS50 Library to use SQLite database with the full path
 db = SQL(f"sqlite:///{db_path}")
 """
+
+
+
 
 @app.after_request
 def after_request(response):
@@ -94,6 +106,88 @@ def addWorkout():
     else:
         return render_template("addWorkout.html")
 
+
+# add aiAddWorkout
+@app.route("/aiAddWorkout", methods=["GET", "POST"])
+@login_required
+def aiAddWorkout():
+    if request.method == "POST":
+        # generate workout with prompt
+        if 'generateWorkout' in request.form:
+            # get variables from HTML
+            inputPrompt = request.form.get("inputPrompt")
+            #print(inputPrompt)
+
+            # response is generated in JSON format IF its an workout, else error
+            response = client.chat.completions.create(model="ft:gpt-4o-mini-2024-07-18:personal:fitnesstracker1:A5Fzwfzz",
+            messages=[
+                    {"role": "system", "content": "You are an assistant that generates structured workout programs."},
+                    {"role": "user", "content": inputPrompt}
+            ])            
+            # response is an string but in JSON format (finetuning) 
+            response_str = response.choices[0].message.content
+            print(response_str)
+            """
+            try:
+                # convert string to JSON
+                response = json.loads(response_str)
+                session["AiWorkout"] = response
+            
+            except json.JSONDecodeError:
+                flash("The response from the API was not in the expected format.", "danger")
+                return redirect("/aiAddWorkout")
+"""
+            try:
+                # Første forsøg: antag, at output allerede er et JSON-objekt
+                response = json.loads(response_str)
+                session["AiWorkout"] = response
+            except json.JSONDecodeError as e:
+                print(f"Initial JSON parse error: {e}")  # Debugging: print specific error
+
+                try:
+                    # Andet forsøg: tjek om det er en streng, der indeholder JSON (dobbelt-parsed)
+                    response_str = json.loads(response_str)
+                    session["AiWorkout"] = response_str
+                except json.JSONDecodeError as e2:
+                    # Debugging: print specific error for second failure
+                    print(f"Second JSON parse error: {e2}")
+                    flash("The response from the API was not in the expected format.", "danger")
+                    return redirect("/aiAddWorkout")
+
+            return render_template("aiAddWorkout.html", program = response)
+
+
+        # save workout to DB
+        elif 'saveWorkout' in request.form:
+            # get variables            
+            response = session["AiWorkout"]
+            userId = session["user_id"]
+
+            if response is None:
+                return redirect("/")
+
+            # iterate through each workout in dict
+            for workoutName, workouts in response.items():
+                # add new workout name to DB
+                db.execute("INSERT INTO programs (user_id, program_name) VALUES (?, ?)", userId, workoutName)
+
+                # get new workoutId
+                workoutId = db.execute("SELECT program_id FROM programs WHERE user_id = ? ORDER BY program_id DESC", userId)
+                if workoutId is None:
+                    return redirect("/")
+                session["workoutId"] = workoutId[0]["program_id"]
+                workoutId = workoutId[0]["program_id"]
+
+                # Iterate through each exercise in that workout (list)
+                for workout in workouts: 
+                    # add exercises to workout
+                    db.execute("INSERT INTO exercises (program_id, exercise_name, sets, reps, start_weight, progression_weight) VALUES (?, ?, ?, ?, ?, ?)", 
+                           workoutId, workout["exercise"], workout["sets"], workout["reps"], 0, 0)
+            print("nononononon")
+            return redirect("/")
+
+    else:
+        return render_template("aiAddWorkout.html")
 
 # add exercise
 @app.route("/addExercise", methods=["GET", "POST"])
@@ -182,8 +276,8 @@ def workout():
                     newWeight = currentWeight + progressionWeight
                     # insert into exercise_weights with new weight, time and reps for each set
                     db.execute("INSERT INTO exercise_weights (exercise_id, weight, time, reps) VALUES(?, ?, ?, ?)", exerciseId, currentWeight, currentTime, allRepsInString)
-                    
-                    # update exercises with new weight and reset reps for each sets
+
+                    # update exercises with new weight and RESET reps for each sets
                     db.execute("UPDATE exercises SET start_weight = ?, previous_reps = '' WHERE exercise_id = ?", newWeight, exerciseId)
                 else:
                     # insert into exercise_weights with current weight, time and reps for each set
@@ -200,7 +294,7 @@ def workout():
 
         # load all exercises from DB
         exercises = db.execute("SELECT * FROM exercises WHERE program_id = ?", workoutId)
-        
+
         # check if dict is empty
         if exercises is None:
             return redirect("/")
