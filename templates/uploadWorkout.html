@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Upload workout
+{% endblock %}
+
+{% block main %}
+    <form action="/uploadWorkout" method="post">
+        <div class="mb-3">
+            <select autocomplete="off" autofocus class="form-control mx-auto w-auto" name="programId">
+                <option disabled selected>Select workout to upload</option>
+                {% for program in programs %}
+                <option value="{{ program.program_id }}">{{ program.program_name }}</option>
+                {% endfor%}
+            </select>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit">Upload</button>
+        </div>
+    </form>
+{% endblock %}
+

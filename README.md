@@ -48,3 +48,22 @@ This project is the final part of the CS50x course, an introduction to computer 
 
 The skills gained in CS50 were crucial for developing this Workout Tracker application.
 
+## Requirements
+- pip3 (pre installed in mac)
+- sqlite (pre installed in mac)
+
+### Development
+1. Clone repository
+2. Make virtual environment:  
+   `python3 -m venv myEnviroment`  
+   - Activate environment:  `source myEnviroment/bin/activate`  
+   -  Deactivate environment:
+   `deactivate`
+3. Install dependicises / python packages: 
+`pip3 install requirements.txt`
+4. Run flask server: 
+   `flask --debug run`
+   -  Open server link
+   -  Create new login or login (name: 1, password 1)
+5. Open sqlite3: `sqlite3 database.db`
+   -  See all tables: `.tables`

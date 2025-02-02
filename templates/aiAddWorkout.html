@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add workout
+{% endblock %}
+
+{% block main %}
+    <form action="/aiAddWorkout" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="inputPrompt" placeholder="Make a workout to legs" type="text">
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit" name="generateWorkout">Generate workout</button>
+            </div>
+            {% if program %}
+                {% for day, exercises in program.items() %}
+                    <h2 class="mt-5">{{ day }}</h2>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Exercise name</th>
+                                    <th>Sets</th>
+                                    <th>Reps</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for exercise in exercises %}
+                                <tr>
+                                    <td>{{ exercise.exercise }}</td>
+                                    <td>{{ exercise.sets }}</td>
+                                    <td>{{ exercise.reps }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No workout generated. Please input a prompt to generate one.</p>
+            {% endif %}
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit" name="saveWorkout">Save workout</button>
+        </div>
+    </form>
+{% endblock %}

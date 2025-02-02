@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete workout
+{% endblock %}
+
+{% block main %}
+    <form action="/downloadWorkout" method="post" id="workoutForm">   
+        <!-- Collapsable-->
+        <div class="accordion" id="accordionExample">
+            {% for program_id, program in programs.items() %}
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ program_id }}" aria-expanded="false" aria-controls="collapse{{ program_id }}">
+                  {{program.program_name}}
+                </button>
+              </h2>
+              <div id="collapse{{ program_id }}" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {% for exercise in program.exercises %}
+                    <li>{{ exercise.exercise_name }} - {{ exercise.sets }}x{{ exercise.reps }}</li>
+                    {% endfor %}
+                    
+                    <!-- Form elements hidden inside each accordion section -->
+                    <div class="workout-controls">
+                        <input type="hidden" name="program_id" value="{{ program_id }}" id="program_id_{{ program_id }}">
+                        <input type="hidden" name="program_name" value="{{ program.program_name }}" id="program_name_{{ program_id }}">
+                        <button class="btn btn-primary" type="button" onclick="setFormValues('{{ program_id }}', '{{ program.program_name }}')">Add workout</button>
+                    </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+
+    <script>
+        // JavaScript function to update form values before submitting
+        function setFormValues(programId, programName) {
+            // Update hidden input values with the correct program ID and name
+            var programIdInput = document.getElementById("program_id_" + programId);
+            var programNameInput = document.getElementById("program_name_" + programId);
+            
+            programIdInput.value = programId;  // Update program_id value
+            programNameInput.value = programName;  // Update program_name value
+
+            // Submit the form after the values are updated
+            document.getElementById("workoutForm").submit();
+        }
+    </script>
+{% endblock %}
