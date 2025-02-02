@@ -29,6 +29,7 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///database.db")
+
 """"
 # to work in any folder:
 # Find the directory where the app.py is located
@@ -408,8 +409,121 @@ def deleteWorkout():
                 return redirect("/")
 
             return render_template("deleteWorkout.html", programs=programs)
+        
 
 
+# uploadWorkout
+@app.route("/uploadWorkout", methods=["GET", "POST"])
+@login_required
+def uploadWorkout():
+        if request.method == "POST":
+            # get variables from HTML
+            programId = request.form.get("programId")
+
+            # extract info from workout
+            db.execute("INSERT INTO UploadedPrograms (program_name) SELECT p.program_name FROM programs AS p WHERE p.program_id = ?;", programId)
+
+            # get new program_id
+            workoutId = db.execute("SELECT program_id FROM uploadedPrograms ORDER BY program_id DESC")
+            if workoutId is None:
+                return redirect("/")
+            uploadedProgramId = workoutId[0]["program_id"]
+
+            # insert all exercises (id, name, sets, reps) to UploadedExercises
+            db.execute("INSERT INTO UploadedExercises (program_id, exercise_name, sets, reps) SELECT ?, e.exercise_name, e.sets, e.reps FROM exercises AS e WHERE e.program_id = ?;", uploadedProgramId, programId)
+
+
+            return redirect("/")
+        else:
+            userId = session["user_id"]
+            #workoutId = session["workoutId"]
+
+            # load all exercises from DB
+            programs = db.execute("SELECT * FROM programs WHERE user_id = ?", userId)
+
+            if programs is None:
+                return redirect("/")
+
+            return render_template("uploadWorkout.html", programs=programs)
+
+
+# downloadWorkout
+@app.route("/downloadWorkout", methods=["GET", "POST"])
+@login_required
+def downloadWorkout():
+        if request.method == "POST":
+            # get variables from HTML
+            programId = request.form.get("program_id")
+            programName = request.form.get("program_name")
+            userId = session["user_id"]
+
+            print(programId)
+            print(programName)
+            if (programId == "8"):
+                print("spurgt")
+                return redirect("/")
+
+            # add new workout name to DB
+            db.execute("INSERT INTO programs (user_id, program_name) VALUES (?, ?)", userId, programName)
+
+            # get new workoutId
+            workoutId = db.execute("SELECT program_id FROM programs WHERE user_id = ? ORDER BY program_id DESC LIMIT 1", (userId,))
+            if not workoutId:
+                return redirect("/")
+
+            # Get the program_id from the result
+            new_workout_id = workoutId[0]["program_id"]
+
+            # add exercises to new workoutId
+            # insert all exercises (id, name, sets, reps) to exercises table from UploadedExercises
+            db.execute("""
+                INSERT INTO exercises (program_id, exercise_name, sets, reps, start_weight, progression_weight)
+                SELECT ?, e.exercise_name, e.sets, e.reps, 0, 0 
+                FROM UploadedExercises AS e 
+                WHERE e.program_id = ?;
+            """, new_workout_id, programId)
+
+            session["workoutId"] = workoutId[0]["program_id"]
+
+
+            return redirect("/")
+        else:
+            userId = session["user_id"]
+            #workoutId = session["workoutId"]
+
+            # load all uploaded programs and exercises from DB (program_id, program_name, exercise_name, sets, reps)
+            programData = db.execute("SELECT up.program_id, up.program_name, ue.exercise_name, ue.sets, ue.reps FROM uploadedPrograms AS up JOIN uploadedExercises AS ue ON up.program_id = ue.program_id")
+            if programData is None:
+                return redirect("/")
+            
+            # divide into each program
+            programs = {}
+
+            for row in programData:
+                program_id = row['program_id']
+
+                if program_id not in programs:
+                    programs[program_id] = {
+                        'program_name': row['program_name'],  # Gemmer som string, ikke liste
+                        'exercises': []  # Gemmer alle øvelser som en liste af dictionaries
+                    }
+
+                # Tilføj øvelse til listen
+                programs[program_id]['exercises'].append({
+                    'exercise_name': row['exercise_name'],
+                    'sets': row['sets'],
+                    'reps': row['reps']
+                })
+
+
+
+            
+
+            return render_template("downloadWorkout.html", programs=programs)
+
+
+
+# -------------------------------------------------------------------------------
 # login - same as w9 finance
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -448,6 +562,7 @@ def login():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("login.html")
+
 
 # logout - same as w9 finance
 @app.route("/logout")
