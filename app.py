@@ -14,7 +14,7 @@ print("opstart")
 
 
 # OPEN AI
-API_KEY = open("AI/API_KEY", "r").read()
+API_KEY = open("gptAPI/API_KEY", "r").read()
 client = OpenAI(api_key=API_KEY)
 
 
