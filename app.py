@@ -453,16 +453,19 @@ def uploadWorkout():
 def downloadWorkout():
         if request.method == "POST":
             # get variables from HTML
-            programId = request.form.get("program_id")
-            programName = request.form.get("program_name")
+            programId = request.form.get("programId")
             userId = session["user_id"]
-
+            print("teeeest: ")
             print(programId)
-            print(programName)
-            if (programId == "8"):
-                print("spurgt")
-                return redirect("/")
 
+
+            # get program name from programId
+            programName = db.execute("SELECT program_name FROM UploadedPrograms where program_id = ?", (programId,))
+            programName = programName[0]["program_name"]
+            print(programName)
+            if not programName:
+                return redirect("/")
+            
             # add new workout name to DB
             db.execute("INSERT INTO programs (user_id, program_name) VALUES (?, ?)", userId, programName)
 
@@ -500,16 +503,16 @@ def downloadWorkout():
             programs = {}
 
             for row in programData:
-                program_id = row['program_id']
+                programId = row['program_id']
 
-                if program_id not in programs:
-                    programs[program_id] = {
+                if programId not in programs:
+                    programs[programId] = {
                         'program_name': row['program_name'],  # Gemmer som string, ikke liste
                         'exercises': []  # Gemmer alle øvelser som en liste af dictionaries
                     }
 
                 # Tilføj øvelse til listen
-                programs[program_id]['exercises'].append({
+                programs[programId]['exercises'].append({
                     'exercise_name': row['exercise_name'],
                     'sets': row['sets'],
                     'reps': row['reps']

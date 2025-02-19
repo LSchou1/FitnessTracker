@@ -3,13 +3,26 @@
 {% block title %}
     Delete workout
 {% endblock %}
-<!-- her går tingene galt, hver knap skal have sin egen specikke værdi, men for-loopet opdatere samme knap, så det bliver den sidste værdi på alle knapper-->
 {% block main %}
-    <form action="/downloadWorkout" method="post">   
+    <form action="/downloadWorkout" method="post">  
+      <!-- choose workout and submit button--> 
+       <!-- Dummy button and method -->
+      <div class="mb-3">
+        <select autocomplete="off" autofocus class="form-control mx-auto w-auto" name="programId">
+            <option disabled selected>Select workout to add</option>
+            {% for program_id, program in programs.items() %}
+            <option value="{{ program_id }}">{{ program.program_name }}</option>
+            {% endfor%}
+        </select>
+      </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Add workout</button>
+    </div>
+
         <!-- Collapsable-->
         <div class="accordion" id="accordionExample">
             {% for program_id, program in programs.items() %}
-            {{ program_id }}
+            <!--test af id: {{ program_id }}-->
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ program_id }}" aria-expanded="false" aria-controls="collapse{{ program_id }}">
@@ -22,10 +35,15 @@
                     <li>{{ exercise.exercise_name }} - {{ exercise.sets }}x{{ exercise.reps }}</li>
                     {% endfor %}
                     <!--knap med flere værdier-->
-                        {{ program_id }}
+                    <!-- 
+                    her går tingene galt, hver knap skal have sin egen specikke værdi, 
+                    men for-loopet opdatere samme knap, så det bliver den sidste værdi på alle knapper.
+                    For nu er knappen disabled.
+                     -->
+                        <!--test af id: {{ program_id }}-->
                         <input type="hidden" name="program_id" value="{{ program_id }}">
                         <input type="hidden" name="program_name" value="{{ program.program_name }}">
-                        <button class="btn btn-primary" type="submit">Add workout</button>
+                        <button class="btn btn-primary" type="submit" disabled>Add workout</button>
                     
                 </div>
               </div>
