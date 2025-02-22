@@ -3,12 +3,26 @@
 {% block title %}
     Delete workout
 {% endblock %}
-
 {% block main %}
-    <form action="/downloadWorkout" method="post" id="workoutForm">   
+    <form action="/downloadWorkout" method="post">  
+      <!-- choose workout and submit button--> 
+       <!-- Dummy button and method -->
+      <div class="mb-3">
+        <select autocomplete="off" autofocus class="form-control mx-auto w-auto" name="programId">
+            <option disabled selected>Select workout to add</option>
+            {% for program_id, program in programs.items() %}
+            <option value="{{ program_id }}">{{ program.program_name }}</option>
+            {% endfor%}
+        </select>
+      </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Add workout</button>
+    </div>
+
         <!-- Collapsable-->
         <div class="accordion" id="accordionExample">
             {% for program_id, program in programs.items() %}
+            <!--test af id: {{ program_id }}-->
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ program_id }}" aria-expanded="false" aria-controls="collapse{{ program_id }}">
@@ -20,32 +34,22 @@
                     {% for exercise in program.exercises %}
                     <li>{{ exercise.exercise_name }} - {{ exercise.sets }}x{{ exercise.reps }}</li>
                     {% endfor %}
+                    <!--knap med flere værdier-->
+                    <!-- 
+                    her går tingene galt, hver knap skal have sin egen specikke værdi, 
+                    men for-loopet opdatere samme knap, så det bliver den sidste værdi på alle knapper.
+                    For nu er knappen disabled.
+                     -->
+                        <!--test af id: {{ program_id }}-->
+                        <input type="hidden" name="program_id" value="{{ program_id }}">
+                        <input type="hidden" name="program_name" value="{{ program.program_name }}">
+                        <button class="btn btn-primary" type="submit" disabled>Add workout</button>
                     
-                    <!-- Form elements hidden inside each accordion section -->
-                    <div class="workout-controls">
-                        <input type="hidden" name="program_id" value="{{ program_id }}" id="program_id_{{ program_id }}">
-                        <input type="hidden" name="program_name" value="{{ program.program_name }}" id="program_name_{{ program_id }}">
-                        <button class="btn btn-primary" type="button" onclick="setFormValues('{{ program_id }}', '{{ program.program_name }}')">Add workout</button>
-                    </div>
                 </div>
               </div>
             </div>
             {% endfor %}
         </div>
     </form>
-
-    <script>
-        // JavaScript function to update form values before submitting
-        function setFormValues(programId, programName) {
-            // Update hidden input values with the correct program ID and name
-            var programIdInput = document.getElementById("program_id_" + programId);
-            var programNameInput = document.getElementById("program_name_" + programId);
-            
-            programIdInput.value = programId;  // Update program_id value
-            programNameInput.value = programName;  // Update program_name value
-
-            // Submit the form after the values are updated
-            document.getElementById("workoutForm").submit();
-        }
-    </script>
 {% endblock %}
+

@@ -1,0 +1,30 @@
+### list to update live server database
+
+##13/8/2024 - added
+# add column to exercise_weights (reps at workout)
+ALTER TABLE exercise_weights
+ADD COLUMN reps TEXT NOT NULL DEFAULT '';
+
+# add column to exercises (previous_reps)
+ALTER TABLE exercises
+ADD COLUMN previous_reps TEXT NOT NULL DEFAULT '';
+
+.headers on
+.mode column
+
+
+## 31/01/2025
+# add two new tables UploadedExercises and UploadedPrograms
+CREATE TABLE UploadedPrograms (
+    program_id INTEGER PRIMARY KEY AUTOINCREMENT,     -- program_id vil automatisk inkrementere
+    program_name TEXT NOT NULL                        -- program_name kan ikke være NULL
+);
+
+CREATE TABLE UploadedExercises (
+    exercise_id INTEGER PRIMARY KEY AUTOINCREMENT,    -- exercise_id vil automatisk inkrementere
+    program_id INTEGER NOT NULL,                       -- program_id er en fremmednøgle og kan ikke være NULL
+    exercise_name TEXT NOT NULL,                       -- exercise_name kan ikke være NULL
+    sets INTEGER NOT NULL,                             -- sets kan ikke være NULL
+    reps INTEGER NOT NULL,                             -- reps kan ikke være NULL
+    FOREIGN KEY (program_id) REFERENCES UploadedPrograms (program_id)   -- opretter en fremmednøgleforbindelse til UploadedPrograms
+);

@@ -54,13 +54,12 @@ The skills gained in CS50 were crucial for developing this Workout Tracker appli
 
 ### Development
 1. Clone repository
-2. Make virtual environment:  
-   `python3 -m venv myEnviroment`  
+2. Make virtual environment:  `python3 -m venv myEnviroment`  
    - Activate environment:  `source myEnviroment/bin/activate`  
    -  Deactivate environment:
    `deactivate`
 3. Install dependicises / python packages: 
-`pip3 install requirements.txt`
+`pip install -r requirements.txt`
 4. Run flask server: 
    `flask --debug run`
    -  Open server link
